@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
     <style>
-        :root { --primary: #fff; --secondary: #888; --bg: #000; --accent: #ff3333; }
+        :root { --primary: #fff; --secondary: #444; --accent: #ff3333; }
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
         
         body { 
@@ -28,11 +28,21 @@
             inset: 0;
             background: url('https://img2.pic.in.th/asdsad50554b77f7067d99.png') center/cover no-repeat;
             z-index: -2;
-            filter: brightness(0.3);
+            filter: brightness(0.25) grayscale(0.2);
         }
         .overlay { position: fixed; inset: 0; background: radial-gradient(circle, transparent 20%, #000 100%); z-index: -1; }
 
-        /* Branding UI */
+        /* Decorative Frame */
+        .frame-line {
+            position: fixed;
+            inset: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            pointer-events: none;
+            z-index: 5;
+            border-radius: 20px;
+        }
+
+        /* Branding UI Center */
         .main-content { 
             position: relative; 
             z-index: 10; 
@@ -40,144 +50,160 @@
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-            gap: 15px;
+        }
+
+        .est-text {
+            font-family: 'Orbitron';
+            font-size: 0.6rem;
+            letter-spacing: 5px;
+            color: var(--secondary);
+            margin-bottom: 15px;
         }
 
         .brand-name { 
             font-family: 'Orbitron'; 
-            font-size: 5.5rem; 
+            font-size: 6rem; 
             font-weight: 900; 
             letter-spacing: 20px; 
             text-transform: uppercase; 
             line-height: 1;
-            color: #fff;
-            margin-bottom: 20px;
+            color: #e2e2e2;
+            margin-bottom: 30px;
         }
 
-        /* --- Members Plate Design --- */
-        .member-plate {
+        .member-btn {
             display: flex;
             align-items: center;
-            gap: 15px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            padding: 12px 35px;
-            border-radius: 8px;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 10px 30px;
+            border-radius: 4px;
             text-decoration: none;
-            color: #fff;
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(5px);
-        }
-        .member-plate:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.4);
-            transform: translateY(-2px);
-        }
-        .member-plate i { font-size: 1.1rem; color: #aaa; }
-        .member-plate span {
+            color: #666;
+            transition: 0.4s;
             font-family: 'Orbitron';
-            font-size: 0.85rem;
-            font-weight: 700;
+            font-size: 0.65rem;
             letter-spacing: 3px;
             text-transform: uppercase;
         }
+        .member-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
 
-        /* --- Music Mini Player (Bottom Right) --- */
+        /* --- Music Player UI --- */
         .bottom-ui { 
             position: fixed; 
-            bottom: 25px; 
-            right: 25px; 
+            bottom: 40px; 
+            right: 40px; 
             z-index: 100; 
         }
 
+        /* Mini Player */
         .music-mini-player { 
             display: flex; 
             align-items: center; 
-            background: rgba(10, 10, 10, 0.9); 
+            background: rgba(15, 15, 15, 0.8); 
             border: 1px solid rgba(255, 255, 255, 0.05); 
-            padding: 8px 12px; 
+            padding: 8px; 
             width: 260px;
             cursor: pointer;
-            border-radius: 2px;
-            transition: 0.3s;
+            backdrop-filter: blur(10px);
         }
-        .music-mini-player:hover { background: rgba(20, 20, 20, 1); border-color: rgba(255,255,255,0.1); }
-        
-        .mini-art { width: 40px; height: 40px; object-fit: cover; border-radius: 1px; }
+        .mini-art { width: 35px; height: 35px; object-fit: cover; }
         .mini-info { flex: 1; padding-left: 12px; }
-        .mini-title { font-family: 'Orbitron'; font-size: 0.65rem; font-weight: 700; display: block; letter-spacing: 1px; }
-        .mini-artist { font-size: 0.55rem; color: #444; text-transform: uppercase; margin-top: 2px; }
-        .mini-btn { font-size: 0.7rem; color: #666; margin-left: 10px; }
+        .mini-title { font-family: 'Orbitron'; font-size: 0.6rem; font-weight: 700; display: block; letter-spacing: 1px; }
+        .mini-artist { font-size: 0.5rem; color: #444; text-transform: uppercase; }
+        .mini-btn { padding: 0 10px; font-size: 0.7rem; color: #fff; }
 
-        /* Full Player (Modal) */
+        /* Full Player (Right Side Layout) */
         .full-player {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9);
-            width: 360px; background: #0c0c0c; border: 1px solid #1a1a1a;
-            padding: 25px; z-index: 2000; visibility: hidden; opacity: 0; transition: 0.3s ease;
-            box-shadow: 0 0 40px rgba(0,0,0,0.8);
+            position: fixed; 
+            bottom: 40px; 
+            right: 40px; 
+            width: 300px; 
+            background: rgba(10, 10, 10, 0.95); 
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px; 
+            z-index: 2000; 
+            visibility: hidden; 
+            opacity: 0; 
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(20px);
+            backdrop-filter: blur(20px);
         }
-        .full-player.active { visibility: visible; opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        .full-player.active { visibility: visible; opacity: 1; transform: translateX(0); }
         
-        .full-art { width: 100%; height: 180px; object-fit: cover; border: 1px solid #1a1a1a; margin-bottom: 20px; }
-        .full-title { font-family: 'Orbitron'; font-size: 1.2rem; font-weight: 700; text-align: center; margin-bottom: 5px; }
-        .full-artist { font-size: 0.6rem; color: #444; text-align: center; letter-spacing: 2px; margin-bottom: 25px; }
+        .player-header { display: flex; justify-content: space-between; font-size: 8px; font-family: 'Orbitron'; color: #333; margin-bottom: 15px; }
+        .full-art { width: 100%; height: 160px; object-fit: cover; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; }
+        .full-title { font-family: 'Orbitron'; font-size: 1rem; font-weight: 700; text-align: center; }
+        .full-artist { font-size: 0.55rem; color: #444; text-align: center; margin-bottom: 20px; letter-spacing: 2px; }
         
-        input[type="range"] { -webkit-appearance: none; width: 100%; background: #1a1a1a; height: 2px; outline: none; margin-bottom: 8px; }
-        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 6px; height: 6px; background: #fff; cursor: pointer; }
+        .progress-container { margin-bottom: 15px; }
+        input[type="range"] { -webkit-appearance: none; width: 100%; background: #1a1a1a; height: 2px; outline: none; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 6px; height: 6px; background: var(--accent); cursor: pointer; }
         
         .play-pause-btn { 
-            width: 100%; padding: 15px; background: #fff; color: #000; border: none; 
-            font-family: 'Orbitron'; font-size: 0.75rem; font-weight: 900; cursor: pointer; transition: 0.2s;
-        }
-        .play-pause-btn:hover { background: var(--accent); color: #fff; }
-
-        .credit-text {
-            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
-            font-family: 'Orbitron'; font-size: 0.5rem; color: #222; letter-spacing: 4px;
+            width: 100%; padding: 12px; background: #fff; color: #000; border: none; 
+            font-family: 'Orbitron'; font-size: 0.65rem; font-weight: 900; cursor: pointer;
         }
 
-        @media (max-width: 768px) { .brand-name { font-size: 2.8rem; letter-spacing: 10px; } .music-mini-player { width: 220px; } }
+        .credit-footer {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            font-family: 'Orbitron'; font-size: 0.5rem; color: #1a1a1a; letter-spacing: 4px;
+        }
+
+        @media (max-width: 768px) { 
+            .brand-name { font-size: 2.5rem; letter-spacing: 10px; } 
+            .bottom-ui, .full-player { right: 20px; bottom: 20px; width: calc(100% - 40px); }
+        }
     </style>
 </head>
 <body>
 
     <div class="main-bg"></div>
     <div class="overlay"></div>
+    <div class="frame-line"></div>
 
     <div class="main-content">
+        <div class="est-text">EST. 2026</div>
         <h1 class="brand-name" id="typewriter"></h1>
-        <a href="http://member.calvyn.site/#" target="_blank" class="member-plate">
+        <a href="http://member.calvyn.site/#" target="_blank" class="member-btn">
             <i class="fa-solid fa-people-group"></i>
             <span>Members</span>
         </a>
     </div>
 
-    <div class="credit-text">SYSTEM DESIGN BY OSHI</div>
+    <div class="credit-footer">SYSTEM DESIGN BY OSHI</div>
 
-    <div class="bottom-ui">
+    <div class="bottom-ui" id="miniPlayerUI">
         <div class="music-mini-player" onclick="toggleFullPlayer()">
             <img src="https://i.ytimg.com/vi/xy3AcmW0lrQ/maxresdefault.jpg" class="mini-art" alt="Art">
             <div class="mini-info">
                 <span class="mini-title">COME THROUGH</span>
                 <span class="mini-artist">THE WEEKND</span>
             </div>
-            <div class="mini-btn" id="miniPlayBtn">||</div>
+            <div class="mini-btn">||</div>
         </div>
     </div>
 
     <div class="full-player" id="fullPlayer">
-        <div style="display:flex; justify-content:space-between; font-size:9px; color:#333; margin-bottom:15px; font-family:'Orbitron'">
-            <span onclick="toggleFullPlayer()" style="cursor:pointer">HIDE PLAYER</span>
-            <span style="color:#ff3333">● NOW PLAYING</span>
+        <div class="player-header">
+            <span onclick="toggleFullPlayer()" style="cursor:pointer">✕ HIDE PLAYER</span>
+            <span style="color:var(--accent)">● NOW PLAYING</span>
         </div>
         <img src="https://i.ytimg.com/vi/xy3AcmW0lrQ/maxresdefault.jpg" class="full-art" alt="Art">
         <h2 class="full-title">COME THROUGH</h2>
         <p class="full-artist">THE WEEKND</p>
         
-        <input type="range" id="progressBar" value="0">
-        <div style="display:flex; justify-content:space-between; font-size:10px; color:#333; margin-bottom:20px;">
-            <span id="currentTime">0:00</span>
-            <span id="durationTime">0:00</span>
+        <div class="progress-container">
+            <input type="range" id="progressBar" value="0">
+            <div style="display:flex; justify-content:space-between; font-size:9px; color:#333; margin-top:5px;">
+                <span id="currentTime">0:00</span>
+                <span id="durationTime">0:00</span>
+            </div>
         </div>
         
         <button class="play-pause-btn" id="fullPlayBtn" onclick="togglePlayPause(event)">PAUSE</button>
@@ -186,7 +212,7 @@
     <div id="yt-player" style="display:none;"></div>
 
     <script>
-        // Typewriter
+        // Typewriter Effect
         const textElement = document.getElementById('typewriter'), text = "CALVYN";
         let index = 0, isDeleting = false;
         function type() {
@@ -198,7 +224,7 @@
             setTimeout(type, speed);
         }
 
-        // YouTube Logic
+        // Music Player Logic
         let player;
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('yt-player', {
@@ -228,21 +254,22 @@
 
         function togglePlayPause(e) {
             if(e) e.stopPropagation();
-            const mBtn = document.getElementById('miniPlayBtn');
             const fBtn = document.getElementById('fullPlayBtn');
             if (player.getPlayerState() === 1) {
                 player.pauseVideo();
-                mBtn.innerText = "▶";
                 fBtn.innerText = "PLAY";
             } else {
                 player.playVideo();
-                mBtn.innerText = "||";
                 fBtn.innerText = "PAUSE";
             }
         }
 
         function toggleFullPlayer() {
-            document.getElementById('fullPlayer').classList.toggle('active');
+            const full = document.getElementById('fullPlayer');
+            const mini = document.getElementById('miniPlayerUI');
+            full.classList.toggle('active');
+            // Hide mini player when full is open for cleaner look
+            mini.style.opacity = full.classList.contains('active') ? "0" : "1";
         }
 
         document.getElementById('progressBar').addEventListener('input', (e) => {
