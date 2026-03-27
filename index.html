@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
     <style>
-        :root { --primary: #fff; --secondary: #444; --accent: #ff3333; }
+        :root { --primary: #fff; --secondary: #333; --accent: #ff3333; }
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
         
         body { 
@@ -28,19 +28,26 @@
             inset: 0;
             background: url('https://img2.pic.in.th/asdsad50554b77f7067d99.png') center/cover no-repeat;
             z-index: -2;
-            filter: brightness(0.25) grayscale(0.2);
+            filter: brightness(0.2) grayscale(0.3);
         }
         .overlay { position: fixed; inset: 0; background: radial-gradient(circle, transparent 20%, #000 100%); z-index: -1; }
 
-        /* Decorative Frame */
-        .frame-line {
+        /* Corner Decorative Frames (เหมือนในรูปต้นฉบับ) */
+        .corner-frame {
             position: fixed;
-            inset: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
+            inset: 30px;
             pointer-events: none;
             z-index: 5;
-            border-radius: 20px;
         }
+        .corner-frame::before, .corner-frame::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .corner-frame::before { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+        .corner-frame::after { bottom: 0; right: 0; border-left: 0; border-top: 0; }
 
         /* Branding UI Center */
         .main-content { 
@@ -55,45 +62,46 @@
         .est-text {
             font-family: 'Orbitron';
             font-size: 0.6rem;
-            letter-spacing: 5px;
+            letter-spacing: 6px;
             color: var(--secondary);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .brand-name { 
             font-family: 'Orbitron'; 
-            font-size: 6rem; 
+            font-size: 6.5rem; 
             font-weight: 900; 
-            letter-spacing: 20px; 
+            letter-spacing: 25px; 
             text-transform: uppercase; 
             line-height: 1;
-            color: #e2e2e2;
-            margin-bottom: 30px;
+            color: #d1d1d1;
+            margin-bottom: 40px;
+            text-shadow: 0 0 30px rgba(255,255,255,0.05);
         }
 
         .member-btn {
             display: flex;
             align-items: center;
             gap: 12px;
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(255, 255, 255, 0.01);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 10px 30px;
-            border-radius: 4px;
+            padding: 10px 35px;
+            border-radius: 2px;
             text-decoration: none;
-            color: #666;
+            color: #555;
             transition: 0.4s;
             font-family: 'Orbitron';
             font-size: 0.65rem;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             text-transform: uppercase;
         }
         .member-btn:hover {
             background: rgba(255, 255, 255, 0.05);
             color: #fff;
-            border-color: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.4);
         }
 
-        /* --- Music Player UI --- */
+        /* --- Music Player UI (Bottom Right Area) --- */
         .bottom-ui { 
             position: fixed; 
             bottom: 40px; 
@@ -105,58 +113,62 @@
         .music-mini-player { 
             display: flex; 
             align-items: center; 
-            background: rgba(15, 15, 15, 0.8); 
+            background: rgba(10, 10, 10, 0.85); 
             border: 1px solid rgba(255, 255, 255, 0.05); 
-            padding: 8px; 
+            padding: 8px 12px; 
             width: 260px;
             cursor: pointer;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(15px);
+            transition: 0.3s;
         }
-        .mini-art { width: 35px; height: 35px; object-fit: cover; }
+        .music-mini-player:hover { background: rgba(20, 20, 20, 0.95); }
+        .mini-art { width: 35px; height: 35px; object-fit: cover; border-radius: 1px; }
         .mini-info { flex: 1; padding-left: 12px; }
-        .mini-title { font-family: 'Orbitron'; font-size: 0.6rem; font-weight: 700; display: block; letter-spacing: 1px; }
+        .mini-title { font-family: 'Orbitron'; font-size: 0.6rem; font-weight: 700; display: block; letter-spacing: 1px; color: #fff; }
         .mini-artist { font-size: 0.5rem; color: #444; text-transform: uppercase; }
-        .mini-btn { padding: 0 10px; font-size: 0.7rem; color: #fff; }
+        .mini-btn { padding-left: 10px; font-size: 0.7rem; color: #fff; border-left: 1px solid rgba(255,255,255,0.1); margin-left: 10px; }
 
-        /* Full Player (Right Side Layout) */
+        /* Full Player (Right Side Sliding Layout) */
         .full-player {
             position: fixed; 
             bottom: 40px; 
             right: 40px; 
-            width: 300px; 
-            background: rgba(10, 10, 10, 0.95); 
+            width: 320px; 
+            background: rgba(10, 10, 10, 0.98); 
             border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 20px; 
+            padding: 25px; 
             z-index: 2000; 
             visibility: hidden; 
             opacity: 0; 
-            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            transform: translateX(20px);
-            backdrop-filter: blur(20px);
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(30px);
+            backdrop-filter: blur(25px);
         }
         .full-player.active { visibility: visible; opacity: 1; transform: translateX(0); }
         
-        .player-header { display: flex; justify-content: space-between; font-size: 8px; font-family: 'Orbitron'; color: #333; margin-bottom: 15px; }
-        .full-art { width: 100%; height: 160px; object-fit: cover; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; }
-        .full-title { font-family: 'Orbitron'; font-size: 1rem; font-weight: 700; text-align: center; }
-        .full-artist { font-size: 0.55rem; color: #444; text-align: center; margin-bottom: 20px; letter-spacing: 2px; }
+        .player-header { display: flex; justify-content: space-between; font-size: 8px; font-family: 'Orbitron'; color: #333; margin-bottom: 20px; letter-spacing: 1px; }
+        .full-art { width: 100%; height: 160px; object-fit: cover; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; }
+        .full-title { font-family: 'Orbitron'; font-size: 1.1rem; font-weight: 700; text-align: center; color: #eee; }
+        .full-artist { font-size: 0.6rem; color: #444; text-align: center; margin-bottom: 30px; letter-spacing: 3px; text-transform: uppercase; }
         
-        .progress-container { margin-bottom: 15px; }
+        .progress-container { margin-bottom: 20px; }
         input[type="range"] { -webkit-appearance: none; width: 100%; background: #1a1a1a; height: 2px; outline: none; }
         input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 6px; height: 6px; background: var(--accent); cursor: pointer; }
         
         .play-pause-btn { 
-            width: 100%; padding: 12px; background: #fff; color: #000; border: none; 
-            font-family: 'Orbitron'; font-size: 0.65rem; font-weight: 900; cursor: pointer;
+            width: 100%; padding: 15px; background: #fff; color: #000; border: none; 
+            font-family: 'Orbitron'; font-size: 0.7rem; font-weight: 900; cursor: pointer; transition: 0.2s;
         }
+        .play-pause-btn:hover { background: var(--accent); color: #fff; }
 
         .credit-footer {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            font-family: 'Orbitron'; font-size: 0.5rem; color: #1a1a1a; letter-spacing: 4px;
+            font-family: 'Orbitron'; font-size: 0.55rem; color: #1a1a1a; letter-spacing: 5px;
+            text-transform: uppercase;
         }
 
         @media (max-width: 768px) { 
-            .brand-name { font-size: 2.5rem; letter-spacing: 10px; } 
+            .brand-name { font-size: 3rem; letter-spacing: 12px; } 
             .bottom-ui, .full-player { right: 20px; bottom: 20px; width: calc(100% - 40px); }
         }
     </style>
@@ -165,7 +177,7 @@
 
     <div class="main-bg"></div>
     <div class="overlay"></div>
-    <div class="frame-line"></div>
+    <div class="corner-frame"></div>
 
     <div class="main-content">
         <div class="est-text">EST. 2026</div>
@@ -200,7 +212,7 @@
         
         <div class="progress-container">
             <input type="range" id="progressBar" value="0">
-            <div style="display:flex; justify-content:space-between; font-size:9px; color:#333; margin-top:5px;">
+            <div style="display:flex; justify-content:space-between; font-size:9px; color:#444; margin-top:8px; font-family:'Orbitron'">
                 <span id="currentTime">0:00</span>
                 <span id="durationTime">0:00</span>
             </div>
@@ -224,7 +236,7 @@
             setTimeout(type, speed);
         }
 
-        // Music Player Logic
+        // YouTube Player Logic
         let player;
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('yt-player', {
@@ -268,8 +280,9 @@
             const full = document.getElementById('fullPlayer');
             const mini = document.getElementById('miniPlayerUI');
             full.classList.toggle('active');
-            // Hide mini player when full is open for cleaner look
+            // จางป้ายเล็กออกเมื่อเปิดหน้าเต็มเพื่อให้ดูสะอาดตา
             mini.style.opacity = full.classList.contains('active') ? "0" : "1";
+            mini.style.pointerEvents = full.classList.contains('active') ? "none" : "auto";
         }
 
         document.getElementById('progressBar').addEventListener('input', (e) => {
