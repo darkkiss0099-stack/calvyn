@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Directory | FORTIME</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-sub: #64748b;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header & Search */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .search-container {
+            position: relative;
+            max-width: 500px;
+            margin: 20px auto;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 12px 20px 12px 45px;
+            border-radius: 30px;
+            border: 1px solid #e2e8f0;
+            outline: none;
+            font-size: 1rem;
+            transition: 0.3s;
+            box-shadow: var(--shadow);
+        }
+
+        .search-container i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-sub);
+        }
+
+        /* Member Grid */
+        .member-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        /* Member Card */
+        .member-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: var(--shadow);
+            border-bottom: 4px solid transparent;
+        }
+
+        .member-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+            border-bottom: 4px solid var(--primary-color);
+        }
+
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 3px solid #eee;
+        }
+
+        .member-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .member-role {
+            color: var(--text-sub);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .social-links a {
+            color: var(--text-sub);
+            margin: 0 10px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* No results message */
+        .no-results {
+            display: none;
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 50px;
+            color: var(--text-sub);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Member List</h1>
+        <p>รายชื่อสมาชิกในโปรเจกต์</p>
+        
+        <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchInput" placeholder="ค้นหาชื่อหรือตำแหน่ง..." onkeyup="searchMember()">
+        </div>
+    </div>
+
+    <div class="member-grid" id="memberGrid">
+        <div class="member-card">
+            <img src="https://ui-avatars.com/api/?name=Admin+User&background=random" alt="Profile" class="profile-img">
+            <div class="member-name">Admin One</div>
+            <div class="member-role">Founder / Designer</div>
+            <div class="social-links">
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#"><i class="fa-brands fa-discord"></i></a>
+                <a href="#"><i class="fa-brands fa-github"></i></a>
+            </div>
+        </div>
+
+        <div class="member-card">
+            <img src="https://ui-avatars.com/api/?name=Developer&background=random" alt="Profile" class="profile-img">
+            <div class="member-name">Dev Studio</div>
+            <div class="member-role">Lead Programmer</div>
+            <div class="social-links">
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#"><i class="fa-brands fa-discord"></i></a>
+            </div>
+        </div>
+
+        <div class="member-card">
+            <img src="https://ui-avatars.com/api/?name=Graphic+Design&background=random" alt="Profile" class="profile-img">
+            <div class="member-name">Art Creator</div>
+            <div class="member-role">Graphic Designer</div>
+            <div class="social-links">
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-discord"></i></a>
+            </div>
+        </div>
+
+        <div class="no-results" id="noResults">ไม่พบรายชื่อที่ค้นหา...</div>
+    </div>
+</div>
+
+<script>
+    function searchMember() {
+        let input = document.getElementById('searchInput').value.toLowerCase();
+        let cards = document.getElementsByClassName('member-card');
+        let noResults = document.getElementById('noResults');
+        let found = false;
+
+        for (let i = 0; i < cards.length; i++) {
+            let name = cards[i].querySelector('.member-name').innerText.toLowerCase();
+            let role = cards[i].querySelector('.member-role').innerText.toLowerCase();
+            
+            if (name.includes(input) || role.includes(input)) {
+                cards[i].style.display = "";
+                found = true;
+            } else {
+                cards[i].style.display = "none";
+            }
+        }
+
+        noResults.style.display = found ? "none" : "block";
+    }
+</script>
+
+</body>
+</html>
