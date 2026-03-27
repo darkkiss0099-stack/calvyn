@@ -10,9 +10,9 @@
     <style>
         :root { 
             --primary: #ffffff; 
-            --secondary: #aaaaaa; /* ปรับให้เทาอ่อนลงนิดหน่อย */
+            --secondary: #aaaaaa; 
             --bg-dark: #000000;
-            --accent: #ffffff; 
+            --accent: #ff0000; /* สีแดงสำหรับสถานะ Now Playing */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
@@ -28,24 +28,21 @@
             justify-content: center; 
         }
 
-        /* Background Image พร้อมลดฟิลเตอร์ลงเพื่อให้เห็นชัดขึ้น */
         .main-bg {
             position: fixed;
             inset: 0;
             background: url('https://img2.pic.in.th/asdsad50554b77f7067d99.png') center/cover no-repeat;
             z-index: -2;
-            filter: brightness(0.3) contrast(1.1); /* ปรับ brightness ขึ้นจาก 0.15 เป็น 0.3 */
+            filter: brightness(0.3) contrast(1.1);
         }
         
-        /* ปรับ Overlay ให้จางลงเพื่อให้เห็นพื้นหลังชัดเจน */
         .overlay { 
             position: fixed; 
             inset: 0; 
-            background: radial-gradient(circle, transparent 30%, rgba(0,0,0,0.8) 150%); /* เปลี่ยนจากดำทึบเป็นโปร่งแสง */
+            background: radial-gradient(circle, transparent 30%, rgba(0,0,0,0.8) 150%);
             z-index: -1; 
         }
 
-        /* กรอบมุมจอ (UI Frames) */
         .corner-frame {
             position: fixed;
             inset: 20px;
@@ -63,7 +60,6 @@
         .corner-frame::before { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
         .corner-frame::after { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
 
-        /* Branding UI Center */
         .main-content { 
             position: relative; 
             z-index: 10; 
@@ -93,15 +89,13 @@
         .est-text::before { left: -50px; }
         .est-text::after { right: -50px; }
 
-        /* โลโก้ใหม่ตรงกลาง ปรับขนาดให้พอดี */
         .main-logo {
-            height: 150px; /* กำหนดความสูงแทนความกว้างเพื่อให้รูปไม่แตก */
+            height: 150px;
             width: auto;
             margin-bottom: 10px;
-            filter: drop-shadow(0 0 15px rgba(255,255,255,0.3)); /* เพิ่มเงาเรืองแสงนิดหน่อย */
+            filter: drop-shadow(0 0 15px rgba(255,255,255,0.3));
         }
 
-        /* เปลี่ยนชื่อแบรนด์เป็น CALVYN */
         .brand-name { 
             font-family: 'Montserrat', sans-serif; 
             font-size: 5.5rem; 
@@ -109,7 +103,7 @@
             letter-spacing: 15px; 
             text-transform: uppercase; 
             line-height: 1;
-            color: #ffffff; /* ปรับเป็นสีขาวบริสุทธิ์ */
+            color: #ffffff;
             margin-bottom: 40px;
             text-shadow: 0 0 20px rgba(255,255,255,0.2);
         }
@@ -130,14 +124,13 @@
             padding: 12px 30px;
             border-radius: 4px;
             text-decoration: none;
-            color: #bbbbbb; /* ปรับสีตัวอักษรปุ่มให้สว่างขึ้น */
+            color: #bbbbbb;
             transition: 0.3s;
             font-family: 'Orbitron';
             font-size: 0.6rem;
             letter-spacing: 3px;
             text-transform: uppercase;
         }
-        .member-btn i { font-size: 0.8rem; opacity: 0.7; }
         .member-btn:hover {
             background: rgba(255, 255, 255, 0.05);
             color: #fff;
@@ -145,6 +138,7 @@
             transform: translateY(-2px);
         }
 
+        /* --- Music Player Styles --- */
         .bottom-ui { 
             position: fixed; 
             bottom: 30px; 
@@ -152,36 +146,99 @@
             z-index: 100; 
         }
 
+        /* ป้ายเล็กตอนย่อ */
         .music-mini-player { 
             display: flex; 
             align-items: center; 
-            background: rgba(10, 10, 10, 0.85); /* ปรับให้โปร่งแสงนิดหน่อย */
-            border: 1px solid rgba(255, 255, 255, 0.08); 
+            background: rgba(20, 20, 20, 0.9); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
             padding: 6px; 
-            width: 240px;
+            width: 250px;
             cursor: pointer;
             backdrop-filter: blur(10px);
+            transition: 0.3s;
         }
         .mini-art { width: 40px; height: 40px; object-fit: cover; }
         .mini-info { flex: 1; padding-left: 12px; }
-        .mini-title { font-family: 'Orbitron'; font-size: 0.55rem; font-weight: 700; display: block; color: #fff; letter-spacing: 1px; }
-        .mini-artist { font-size: 0.5rem; color: #888; text-transform: uppercase; }
-        .mini-btn { padding: 0 10px; font-size: 0.6rem; color: #fff; border-left: 1px solid rgba(255,255,255,0.1); margin-left: 10px; }
+        .mini-title { font-family: 'Orbitron'; font-size: 0.55rem; font-weight: 700; display: block; color: #fff; }
+        .mini-artist { font-size: 0.5rem; color: #777; text-transform: uppercase; }
 
-        /* ฟุตเตอร์เครดิต ปรับเป็นสีขาวและเปลี่ยนข้อความ */
+        /* หน้าจอ Player ใหญ่แบบในรูป */
+        .full-player {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 320px;
+            background: rgba(15, 15, 15, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            display: none; /* ซ่อนไว้ก่อน */
+            flex-direction: column;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .player-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-family: 'Orbitron';
+            font-size: 0.55rem;
+            color: #555;
+            letter-spacing: 1px;
+        }
+
+        .now-playing-tag { color: var(--accent); display: flex; align-items: center; gap: 5px; }
+
+        .full-art {
+            width: 100%;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            border: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 20px;
+        }
+
+        .full-info { text-align: center; margin-bottom: 25px; }
+        .full-title { font-family: 'Orbitron'; font-size: 1rem; color: #fff; margin-bottom: 5px; letter-spacing: 2px; }
+        .full-artist { font-size: 0.6rem; color: #666; text-transform: uppercase; letter-spacing: 2px; }
+
+        .progress-container { margin-bottom: 20px; }
+        .progress-bar {
+            width: 100%;
+            height: 2px;
+            background: #222;
+            position: relative;
+            cursor: pointer;
+        }
+        .progress-current { height: 100%; background: var(--accent); width: 0%; }
+        .time-info { display: flex; justify-content: space-between; font-size: 0.5rem; color: #444; margin-top: 8px; font-family: 'Orbitron'; }
+
+        .controls { display: flex; justify-content: center; align-items: center; margin-bottom: 20px; }
+        .play-btn {
+            background: #fff;
+            color: #000;
+            width: 50px;
+            height: 50px;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .play-btn:hover { transform: scale(1.1); background: var(--accent); color: #fff; }
+
+        .volume-container { display: flex; align-items: center; gap: 10px; color: #444; font-size: 0.7rem; }
+        .volume-slider { flex: 1; accent-color: #555; height: 2px; cursor: pointer; }
+
         .credit-footer {
             position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
             font-family: 'Orbitron'; font-size: 0.55rem; 
-            color: #ffffff; /* เปลี่ยนเป็นสีขาว */
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            opacity: 0.8;
-        }
-
-        @media (max-width: 768px) { 
-            .brand-name { font-size: 2.8rem; letter-spacing: 8px; } 
-            .main-logo { height: 100px; }
-            .bottom-ui { right: 10px; bottom: 10px; width: 220px; scale: 0.8; transform-origin: bottom right; }
+            color: #ffffff; letter-spacing: 4px;
+            text-transform: uppercase; opacity: 0.8;
         }
     </style>
 </head>
@@ -193,13 +250,9 @@
 
     <div class="main-content">
         <div class="est-text">EST. 2025</div>
-        
         <img src="https://img1.pic.in.th/images/calvyn.png" class="main-logo" alt="CALVYN Logo">
-        
         <h1 class="brand-name">CALVYN</h1>
-        
         <div class="divider-line"></div>
-
         <a href="#" class="member-btn">
             <i class="fa-solid fa-user-group"></i>
             <span>Members</span>
@@ -209,34 +262,140 @@
     <div class="credit-footer">DESIGN BY CALVYN</div>
 
     <div class="bottom-ui">
-        <div class="music-mini-player">
-            <img src="https://i1.sndcdn.com/artworks-000412693845-tqisqj-t500x500.jpg" class="mini-art" alt="Art">
+        <div class="music-mini-player" id="miniPlayer" onclick="togglePlayer()">
+            <img src="https://i.ytimg.com/vi/xy3AcmW0lrQ/maxresdefault.jpg" class="mini-art">
             <div class="mini-info">
                 <span class="mini-title">COME THROUGH</span>
                 <span class="mini-artist">THE WEEKND</span>
             </div>
-            <div class="mini-btn"><i class="fa-solid fa-bars-staggered"></i></div>
+            <div style="padding: 0 10px; color: #fff; font-size: 0.7rem;"><i class="fa-solid fa-caret-up"></i></div>
+        </div>
+
+        <div class="full-player" id="fullPlayer">
+            <div class="player-header">
+                <span style="cursor: pointer;" onclick="togglePlayer()"><i class="fa-solid fa-xmark"></i> HIDE PLAYER</span>
+                <span class="now-playing-tag"><i class="fa-solid fa-circle" style="font-size: 4px;"></i> NOW PLAYING</span>
+            </div>
+
+            <img src="https://i.ytimg.com/vi/xy3AcmW0lrQ/maxresdefault.jpg" class="full-art">
+
+            <div class="full-info">
+                <h2 class="full-title">COME THROUGH</h2>
+                <p class="full-artist">THE WEEKND</p>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar" onclick="seek(event)">
+                    <div class="progress-current" id="progressLine"></div>
+                </div>
+                <div class="time-info">
+                    <span id="timeCurrent">0:00</span>
+                    <span id="timeTotal">0:00</span>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="play-btn" onclick="togglePlay()"><i class="fa-solid fa-play" id="playIcon"></i></button>
+            </div>
+
+            <div class="volume-container">
+                <i class="fa-solid fa-volume-low"></i>
+                <input type="range" class="volume-slider" min="0" max="100" value="20" oninput="changeVolume(this.value)">
+            </div>
         </div>
     </div>
 
     <div id="yt-player" style="display:none;"></div>
 
     <script>
+        // YouTube API Setup
         var tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         document.head.append(tag);
 
         let player;
+        let isPlaying = false;
+
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('yt-player', {
                 height: '0', width: '0', videoId: 'xy3AcmW0lrQ',
                 playerVars: { 'autoplay': 1, 'loop': 1, 'playlist': 'xy3AcmW0lrQ' },
-                events: { 'onReady': (e) => e.target.setVolume(20) }
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
             });
         }
 
+        function onPlayerReady(event) {
+            player.setVolume(20);
+            updateProgress();
+        }
+
+        function onPlayerStateChange(event) {
+            const icon = document.getElementById('playIcon');
+            if (event.data == YT.PlayerState.PLAYING) {
+                isPlaying = true;
+                icon.className = "fa-solid fa-pause";
+            } else {
+                isPlaying = false;
+                icon.className = "fa-solid fa-play";
+            }
+        }
+
+        // UI Functions
+        function togglePlayer() {
+            const mini = document.getElementById('miniPlayer');
+            const full = document.getElementById('fullPlayer');
+            if (full.style.display === "flex") {
+                full.style.display = "none";
+                mini.style.display = "flex";
+            } else {
+                full.style.display = "flex";
+                mini.style.display = "none";
+            }
+        }
+
+        function togglePlay() {
+            if (isPlaying) {
+                player.pauseVideo();
+            } else {
+                player.playVideo();
+            }
+        }
+
+        function changeVolume(val) {
+            if(player) player.setVolume(val);
+        }
+
+        function seek(event) {
+            const bar = event.currentTarget;
+            const percent = event.offsetX / bar.offsetWidth;
+            const duration = player.getDuration();
+            player.seekTo(duration * percent);
+        }
+
+        function updateProgress() {
+            setInterval(() => {
+                if (player && isPlaying) {
+                    const current = player.getCurrentTime();
+                    const duration = player.getDuration();
+                    const percent = (current / duration) * 100;
+                    document.getElementById('progressLine').style.width = percent + "%";
+                    document.getElementById('timeCurrent').innerText = formatTime(current);
+                    document.getElementById('timeTotal').innerText = formatTime(duration);
+                }
+            }, 1000);
+        }
+
+        function formatTime(time) {
+            const min = Math.floor(time / 60);
+            const sec = Math.floor(time % 60);
+            return min + ":" + (sec < 10 ? '0' : '') + sec;
+        }
+
         document.body.addEventListener('click', () => {
-            if(player) player.playVideo();
+            if(player && !isPlaying) player.playVideo();
         }, { once: true });
     </script>
 </body>
