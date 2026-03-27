@@ -6,7 +6,7 @@
     <title>CALVYN | OFFICIAL</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #fff; --secondary: #888; --bg: #000; --accent: #ff3333; }
+        :root { --primary: #fff; --secondary: #888; --bg: #050505; --accent: #ff3333; }
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
         
         body { 
@@ -16,6 +16,7 @@
             font-family: 'Rajdhani', sans-serif; 
             overflow: hidden; 
             display: flex; 
+            flex-direction: column; 
             align-items: center; 
             justify-content: center; 
         }
@@ -26,111 +27,89 @@
             inset: 0;
             background: url('https://img2.pic.in.th/asdsad50554b77f7067d99.png') center/cover no-repeat;
             z-index: -2;
-            filter: brightness(0.3) grayscale(0.5);
+            filter: brightness(0.4);
         }
+
         .overlay { position: fixed; inset: 0; background: radial-gradient(circle, transparent 20%, #000 100%); z-index: -1; }
 
-        /* Main Branding UI */
-        .main-content { 
-            position: relative; 
-            z-index: 10; 
-            text-align: center; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            gap: 20px;
-        }
-
-        .logo-icon {
-            font-family: 'Orbitron';
-            font-size: 0.7rem;
-            letter-spacing: 5px;
-            color: #444;
-            margin-bottom: -10px;
-        }
-
-        .brand-name { 
-            font-family: 'Orbitron'; 
-            font-size: 6rem; 
-            font-weight: 900; 
-            letter-spacing: 20px; 
-            text-transform: uppercase; 
-            line-height: 1;
-            color: #e0e0e0;
-            text-shadow: 0 0 50px rgba(255,255,255,0.1);
-        }
-
-        .member-btn {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 10px 40px;
-            color: #666;
-            text-decoration: none;
-            font-family: 'Orbitron';
-            font-size: 0.65rem;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            transition: 0.4s;
-            margin-top: 20px;
-        }
-        .member-btn:hover {
-            background: #fff;
-            color: #000;
-            border-color: #fff;
-        }
-
-        /* --- Music Player (Fixed Bottom Right) --- */
-        .bottom-ui { 
-            position: fixed; 
-            bottom: 20px; 
-            right: 20px; 
-            z-index: 100; 
-        }
-
-        .music-mini-player { 
-            display: flex; 
-            align-items: center; 
-            background: rgba(15, 15, 15, 0.9); 
-            border: 1px solid rgba(255, 255, 255, 0.05); 
-            padding: 6px; 
-            width: 250px;
-            cursor: pointer;
+        /* --- Top Navigation --- */
+        .top-nav {
+            position: fixed;
+            top: 20px;
+            width: 95%;
+            max-width: 1400px;
+            background: rgba(17, 17, 17, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 50px;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
             backdrop-filter: blur(10px);
         }
-        .mini-art { width: 35px; height: 35px; object-fit: cover; border-radius: 2px; }
-        .mini-info { flex: 1; padding-left: 12px; }
-        .mini-title { font-family: 'Orbitron'; font-size: 0.6rem; font-weight: 700; display: block; color: #fff; letter-spacing: 1px; }
-        .mini-artist { font-size: 0.5rem; color: #555; text-transform: uppercase; }
-        .mini-btn { padding: 0 10px; font-size: 0.7rem; color: #fff; border-left: 1px solid rgba(255, 255, 255, 0.1); margin-left: 10px; }
+        .house-tag { background: #fff; color: #000; font-family: 'Orbitron'; font-weight: 900; font-size: 0.7rem; padding: 6px 15px; border-radius: 20px; margin-right: 15px; text-transform: uppercase; }
+        .house-name { font-family: 'Orbitron'; font-size: 0.75rem; letter-spacing: 2px; color: #eee; text-transform: uppercase; }
 
-        /* Full Player Modal */
+        .main-content { position: relative; z-index: 10; text-align: center; width: 100%; max-width: 1200px; display: flex; flex-direction: column; gap: 25px; align-items: center; }
+
+        /* Brand Typography */
+        .brand-name { font-family: 'Orbitron'; font-size: 5.5rem; font-weight: 900; letter-spacing: 25px; border-right: 6px solid #fff; padding-right: 15px; text-shadow: 0 0 30px rgba(255,255,255,0.4); text-transform: uppercase; line-height: 1; min-height: 1.1em;}
+        .brand-subtext { font-family: 'Orbitron'; font-size: 0.9rem; letter-spacing: 12px; color: var(--secondary); margin-top: 5px; }
+
+        /* Member Plate */
+        .pennales-plate { background: rgba(17, 17, 17, 0.95); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 18px 50px; text-decoration: none; color: #fff; transition: 0.3s; box-shadow: 0 10px 30px #000; backdrop-filter: blur(5px); }
+        .pennales-plate:hover { border-color: rgba(255,255,255,0.3); transform: translateY(-3px); }
+        .plate-title { font-family: 'Orbitron'; font-size: 1.3rem; font-weight: 700; letter-spacing: 4px; display: block; }
+
+        /* --- Music Player UI --- */
+        .bottom-ui { position: fixed; bottom: 30px; width: 95%; display: flex; justify-content: space-between; align-items: flex-end; z-index: 100; }
+
+        /* Mini Player */
+        .music-mini-player { 
+            display: flex; align-items: center; gap: 15px; 
+            background: #0f0f0f; border: 1px solid #222; 
+            padding: 10px; border-radius: 4px; width: 320px;
+            cursor: pointer; position: relative;
+        }
+        .mini-art { width: 50px; height: 50px; object-fit: cover; }
+        .mini-info { flex: 1; }
+        .mini-title { font-family: 'Orbitron'; font-size: 0.8rem; font-weight: 700; display: block; }
+        .mini-artist { font-size: 0.6rem; color: #666; text-transform: uppercase; }
+        .mini-btn { background: #1a1a1a; border: 1px solid #333; color: #fff; padding: 10px; font-size: 0.8rem; }
+
+        /* Full Player (Modal) */
         .full-player {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9);
-            width: 350px; background: #0a0a0a; border: 1px solid #1a1a1a;
+            width: 380px; background: #111; border: 1px solid #222;
             padding: 25px; z-index: 2000; visibility: hidden; opacity: 0; transition: 0.3s;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
         }
         .full-player.active { visibility: visible; opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        .full-art-container { width: 100%; height: 180px; background: #000; margin-bottom: 20px; border: 1px solid #1a1a1a; }
-        .full-art-container img { width: 100%; height: 100%; object-fit: cover; }
-        .full-title { font-family: 'Orbitron'; font-size: 1.1rem; font-weight: 700; text-align: center; margin-bottom: 5px; }
-        .full-artist { font-size: 0.6rem; color: #444; text-align: center; margin-bottom: 20px; letter-spacing: 2px; }
+        .player-header { display: flex; justify-content: space-between; font-family: 'Orbitron'; font-size: 0.6rem; margin-bottom: 20px; color: #666; }
+        .now-playing-tag { color: var(--accent); }
+        .full-art-container { width: 100%; height: 180px; background: #000; margin-bottom: 25px; overflow: hidden; border: 1px solid #222; }
+        .full-art-container img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.7) contrast(1.2); }
+        .full-title { font-family: 'Orbitron'; font-size: 1.4rem; font-weight: 900; text-align: center; letter-spacing: 2px; }
+        .full-artist { font-family: 'Orbitron'; font-size: 0.7rem; color: #555; text-align: center; margin-bottom: 30px; }
         
-        .progress-container { width: 100%; margin-bottom: 15px; }
-        input[type="range"] { -webkit-appearance: none; width: 100%; background: #1a1a1a; height: 2px; outline: none; }
-        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 8px; height: 8px; background: #fff; cursor: pointer; }
-        .time-info { display: flex; justify-content: space-between; font-size: 0.55rem; color: #333; margin-top: 5px; }
+        /* Controls */
+        .progress-container { width: 100%; margin-bottom: 20px; }
+        input[type="range"] { -webkit-appearance: none; width: 100%; background: #222; height: 3px; outline: none; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 10px; height: 10px; background: var(--accent); cursor: pointer; }
+        .time-info { display: flex; justify-content: space-between; font-size: 0.6rem; color: #444; margin-top: 8px; }
         
+        .main-controls { display: flex; justify-content: center; align-items: center; margin-bottom: 20px; }
         .play-pause-btn { 
-            width: 100%; padding: 12px; background: #fff; color: #000; border: none; 
-            font-family: 'Orbitron'; font-size: 0.7rem; font-weight: 900; cursor: pointer;
+            width: 60px; height: 60px; background: #fff; color: #000; border: none; 
+            clip-path: polygon(15% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%, 0% 15%);
+            font-size: 1.2rem; cursor: pointer; transition: 0.2s;
         }
+        .play-pause-btn:hover { background: var(--accent); color: #fff; }
+        
+        .volume-container { display: flex; align-items: center; gap: 10px; padding: 0 20px; }
+        .volume-icon { font-size: 0.8rem; color: #444; }
 
-        .footer-credit {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            font-family: 'Orbitron'; font-size: 0.5rem; color: #222; letter-spacing: 3px;
-        }
-
-        @media (max-width: 768px) { .brand-name { font-size: 3rem; letter-spacing: 10px; } }
+        @media (max-width: 768px) { .brand-name { font-size: 2.5rem; letter-spacing: 8px; } .music-mini-player { width: 260px; } }
     </style>
 </head>
 <body>
@@ -138,15 +117,26 @@
     <div class="main-bg"></div>
     <div class="overlay"></div>
 
-    <div class="main-content">
-        <div class="logo-icon">EST. 2026</div>
-        <h1 class="brand-name" id="typewriter"></h1>
-        <a href="http://member.calvyn.site/#" target="_blank" class="member-btn">Members</a>
+    <div class="top-nav">
+        <div class="house-tag">ONELESS</div>
+        <div class="house-name">PROJECT</div>
     </div>
 
-    <div class="footer-credit">SYSTEM DESIGN BY OSHI</div>
+    <div class="main-content">
+        <div class="brand-header">
+            <h1 class="brand-name" id="typewriter"></h1>
+            <div class="brand-subtext">ALL WAY TO STAR ONELESS</div>
+        </div>
+
+        <div class="center-ui-group">
+            <a href="http://member.calvyn.site/#" target="_blank" class="pennales-plate">
+                <span class="plate-title">CALVYN</span>
+            </a>
+        </div>
+    </div>
 
     <div class="bottom-ui">
+        <div style="color: #333; font-weight: bold; letter-spacing: 2px;">SYSTEM DESIGN BY OSHI</div>
         <div class="music-mini-player" onclick="toggleFullPlayer()">
             <img src="https://i.ytimg.com/vi/xy3AcmW0lrQ/maxresdefault.jpg" class="mini-art" alt="Art">
             <div class="mini-info">
@@ -158,9 +148,9 @@
     </div>
 
     <div class="full-player" id="fullPlayer">
-        <div style="display: flex; justify-content: space-between; font-size: 10px; color: #333; margin-bottom: 15px;">
-            <span onclick="toggleFullPlayer()" style="cursor:pointer">CLOSE</span>
-            <span style="color: var(--accent)">● NOW PLAYING</span>
+        <div class="player-header">
+            <span onclick="toggleFullPlayer()" style="cursor: pointer;">✕ HIDE PLAYER</span>
+            <span class="now-playing-tag">● NOW PLAYING</span>
         </div>
         <div class="full-art-container">
             <img src="https://i.ytimg.com/vi/xy3AcmW0lrQ/maxresdefault.jpg" alt="Art">
@@ -176,7 +166,14 @@
             </div>
         </div>
 
-        <button class="play-pause-btn" id="fullPlayBtn" onclick="togglePlayPause(event)">PAUSE</button>
+        <div class="main-controls">
+            <button class="play-pause-btn" id="fullPlayBtn" onclick="togglePlayPause(event)">||</button>
+        </div>
+
+        <div class="volume-container">
+            <span class="volume-icon">🔉</span>
+            <input type="range" id="volumeSlider" min="0" max="100" value="30">
+        </div>
     </div>
 
     <div id="yt-player" style="display:none;"></div>
@@ -186,41 +183,50 @@
         const textElement = document.getElementById('typewriter'), text = "CALVYN";
         let index = 0, isDeleting = false;
         function type() {
-            let speed = isDeleting ? 150 : 300;
+            let speed = isDeleting ? 100 : 250;
             textElement.innerText = text.substring(0, index);
             if (!isDeleting && index < text.length) index++;
             else if (isDeleting && index > 0) index--;
-            else { isDeleting = !isDeleting; speed = 2000; }
+            else { isDeleting = !isDeleting; speed = isDeleting ? 2500 : 500; }
             setTimeout(type, speed);
         }
 
-        // Music Logic
+        // Music Player Logic
         let player;
         const videoId = 'xy3AcmW0lrQ';
+        const fullPlayer = document.getElementById('fullPlayer');
+        const progressBar = document.getElementById('progressBar');
+        const volumeSlider = document.getElementById('volumeSlider');
+
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('yt-player', {
                 height: '0', width: '0', videoId: videoId,
                 playerVars: { 'autoplay': 1, 'loop': 1, 'playlist': videoId },
-                events: { 'onReady': (e) => { e.target.setVolume(30); startTimer(); } }
+                events: { 
+                    'onReady': (e) => {
+                        e.target.setVolume(30);
+                        updateTimer();
+                    }
+                }
             });
         }
 
-        function startTimer() {
+        function updateTimer() {
             setInterval(() => {
                 if (player && player.getCurrentTime) {
                     const current = player.getCurrentTime();
                     const duration = player.getDuration();
-                    document.getElementById('progressBar').value = (current / duration) * 100;
+                    progressBar.value = (current / duration) * 100;
                     document.getElementById('currentTime').innerText = formatTime(current);
                     document.getElementById('durationTime').innerText = formatTime(duration);
                 }
             }, 500);
         }
 
-        function formatTime(s) {
-            const m = Math.floor(s/60);
-            const r = Math.floor(s%60);
-            return `${m}:${r<10?'0':''}${r}`;
+        function formatTime(time) {
+            const min = Math.floor(time / 60);
+            const sec = Math.floor(time % 60);
+            return `${min}:${sec < 10 ? '0' : ''}${sec}`;
         }
 
         function togglePlayPause(e) {
@@ -230,21 +236,26 @@
             if (player.getPlayerState() === 1) {
                 player.pauseVideo();
                 miniBtn.innerText = "▶";
-                fullBtn.innerText = "PLAY";
+                fullBtn.innerText = "▶";
             } else {
                 player.playVideo();
                 miniBtn.innerText = "||";
-                fullBtn.innerText = "PAUSE";
+                fullBtn.innerText = "||";
             }
         }
 
         function toggleFullPlayer() {
-            document.getElementById('fullPlayer').classList.toggle('active');
+            fullPlayer.classList.toggle('active');
         }
 
-        document.getElementById('progressBar').addEventListener('input', (e) => {
+        // Event Listeners
+        progressBar.addEventListener('input', () => {
             const duration = player.getDuration();
-            player.seekTo((e.target.value / 100) * duration);
+            player.seekTo((progressBar.value / 100) * duration);
+        });
+
+        volumeSlider.addEventListener('input', () => {
+            player.setVolume(volumeSlider.value);
         });
 
         window.onload = type;
