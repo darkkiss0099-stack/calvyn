@@ -3,16 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CALVYN | OFFICIAL</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <title>JAGUARX | OFFICIAL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
     <style>
-        :root { --primary: #fff; --secondary: #333; --accent: #ff3333; }
+        :root { 
+            --primary: #ffffff; 
+            --secondary: #888888; 
+            --bg-dark: #050505;
+            --accent: #ffffff; 
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
         
         body { 
-            background: #000;
+            background: var(--bg-dark);
             color: #fff; 
             height: 100vh; 
             font-family: 'Rajdhani', sans-serif; 
@@ -22,32 +28,39 @@
             justify-content: center; 
         }
 
-        /* Background Image */
+        /* Background Image พร้อม Overlay มืดๆ แบบในรูป */
         .main-bg {
             position: fixed;
             inset: 0;
             background: url('https://img2.pic.in.th/asdsad50554b77f7067d99.png') center/cover no-repeat;
             z-index: -2;
-            filter: brightness(0.2) grayscale(0.3);
+            filter: brightness(0.15) contrast(1.2);
         }
-        .overlay { position: fixed; inset: 0; background: radial-gradient(circle, transparent 20%, #000 100%); z-index: -1; }
+        .overlay { 
+            position: fixed; 
+            inset: 0; 
+            background: radial-gradient(circle, transparent 10%, #000 120%); 
+            z-index: -1; 
+        }
 
-        /* Corner Decorative Frames (เหมือนในรูปต้นฉบับ) */
+        /* กรอบมุมจอ (UI Frames) */
         .corner-frame {
             position: fixed;
-            inset: 30px;
+            inset: 20px;
             pointer-events: none;
             z-index: 5;
+            border: 1px solid rgba(255, 255, 255, 0.03);
         }
         .corner-frame::before, .corner-frame::after {
             content: '';
             position: absolute;
-            width: 40px;
-            height: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            width: 30px;
+            height: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
-        .corner-frame::before { top: 0; left: 0; border-right: 0; border-bottom: 0; }
-        .corner-frame::after { bottom: 0; right: 0; border-left: 0; border-top: 0; }
+        /* มุมซ้ายบนและขวาล่าง */
+        .corner-frame::before { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
+        .corner-frame::after { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
 
         /* Branding UI Center */
         .main-content { 
@@ -56,120 +69,114 @@
             text-align: center; 
             display: flex; 
             flex-direction: column; 
-            align-items: center; 
+            align-items: center;
+            width: 100%;
         }
 
         .est-text {
             font-family: 'Orbitron';
-            font-size: 0.6rem;
-            letter-spacing: 6px;
+            font-size: 0.65rem;
+            letter-spacing: 8px;
             color: var(--secondary);
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        /* เส้นประข้าง EST 2025 */
+        .est-text::before, .est-text::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40px;
+            height: 1px;
+            background: rgba(255,255,255,0.1);
+        }
+        .est-text::before { left: -50px; }
+        .est-text::after { right: -50px; }
+
+        /* โลโก้ตัว V/G ตรงกลาง */
+        .main-logo {
+            width: 120px;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 15px rgba(255,255,255,0.2));
         }
 
         .brand-name { 
-            font-family: 'Orbitron'; 
-            font-size: 6.5rem; 
-            font-weight: 900; 
-            letter-spacing: 25px; 
+            font-family: 'Montserrat', sans-serif; 
+            font-size: 5.5rem; 
+            font-weight: 800; 
+            letter-spacing: 15px; 
             text-transform: uppercase; 
             line-height: 1;
-            color: #d1d1d1;
+            color: #bcbcbc;
             margin-bottom: 40px;
-            text-shadow: 0 0 30px rgba(255,255,255,0.05);
+        }
+
+        /* เส้นขั้นก่อนปุ่ม */
+        .divider-line {
+            width: 150px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            margin-bottom: 30px;
         }
 
         .member-btn {
             display: flex;
             align-items: center;
-            gap: 12px;
-            background: rgba(255, 255, 255, 0.01);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 10px 35px;
-            border-radius: 2px;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 30px;
+            border-radius: 4px;
             text-decoration: none;
-            color: #555;
-            transition: 0.4s;
+            color: #888;
+            transition: 0.3s;
             font-family: 'Orbitron';
-            font-size: 0.65rem;
-            letter-spacing: 4px;
+            font-size: 0.6rem;
+            letter-spacing: 3px;
             text-transform: uppercase;
         }
+        .member-btn i { font-size: 0.8rem; opacity: 0.6; }
         .member-btn:hover {
             background: rgba(255, 255, 255, 0.05);
             color: #fff;
-            border-color: rgba(255, 255, 255, 0.4);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
         }
 
-        /* --- Music Player UI (Bottom Right Area) --- */
+        /* Music Player UI - ล่างขวา */
         .bottom-ui { 
             position: fixed; 
-            bottom: 40px; 
-            right: 40px; 
+            bottom: 30px; 
+            right: 30px; 
             z-index: 100; 
         }
 
-        /* Mini Player */
         .music-mini-player { 
             display: flex; 
             align-items: center; 
-            background: rgba(10, 10, 10, 0.85); 
-            border: 1px solid rgba(255, 255, 255, 0.05); 
-            padding: 8px 12px; 
-            width: 260px;
+            background: rgba(15, 15, 15, 0.9); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            padding: 6px; 
+            width: 240px;
             cursor: pointer;
-            backdrop-filter: blur(15px);
-            transition: 0.3s;
+            backdrop-filter: blur(10px);
         }
-        .music-mini-player:hover { background: rgba(20, 20, 20, 0.95); }
-        .mini-art { width: 35px; height: 35px; object-fit: cover; border-radius: 1px; }
+        .mini-art { width: 40px; height: 40px; object-fit: cover; }
         .mini-info { flex: 1; padding-left: 12px; }
-        .mini-title { font-family: 'Orbitron'; font-size: 0.6rem; font-weight: 700; display: block; letter-spacing: 1px; color: #fff; }
-        .mini-artist { font-size: 0.5rem; color: #444; text-transform: uppercase; }
-        .mini-btn { padding-left: 10px; font-size: 0.7rem; color: #fff; border-left: 1px solid rgba(255,255,255,0.1); margin-left: 10px; }
-
-        /* Full Player (Right Side Sliding Layout) */
-        .full-player {
-            position: fixed; 
-            bottom: 40px; 
-            right: 40px; 
-            width: 320px; 
-            background: rgba(10, 10, 10, 0.98); 
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 25px; 
-            z-index: 2000; 
-            visibility: hidden; 
-            opacity: 0; 
-            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            transform: translateX(30px);
-            backdrop-filter: blur(25px);
-        }
-        .full-player.active { visibility: visible; opacity: 1; transform: translateX(0); }
-        
-        .player-header { display: flex; justify-content: space-between; font-size: 8px; font-family: 'Orbitron'; color: #333; margin-bottom: 20px; letter-spacing: 1px; }
-        .full-art { width: 100%; height: 160px; object-fit: cover; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; }
-        .full-title { font-family: 'Orbitron'; font-size: 1.1rem; font-weight: 700; text-align: center; color: #eee; }
-        .full-artist { font-size: 0.6rem; color: #444; text-align: center; margin-bottom: 30px; letter-spacing: 3px; text-transform: uppercase; }
-        
-        .progress-container { margin-bottom: 20px; }
-        input[type="range"] { -webkit-appearance: none; width: 100%; background: #1a1a1a; height: 2px; outline: none; }
-        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 6px; height: 6px; background: var(--accent); cursor: pointer; }
-        
-        .play-pause-btn { 
-            width: 100%; padding: 15px; background: #fff; color: #000; border: none; 
-            font-family: 'Orbitron'; font-size: 0.7rem; font-weight: 900; cursor: pointer; transition: 0.2s;
-        }
-        .play-pause-btn:hover { background: var(--accent); color: #fff; }
+        .mini-title { font-family: 'Orbitron'; font-size: 0.55rem; font-weight: 700; display: block; color: #fff; letter-spacing: 1px; }
+        .mini-artist { font-size: 0.5rem; color: #666; text-transform: uppercase; }
+        .mini-btn { padding: 0 10px; font-size: 0.6rem; color: #fff; border-left: 1px solid rgba(255,255,255,0.1); margin-left: 10px; }
 
         .credit-footer {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            font-family: 'Orbitron'; font-size: 0.55rem; color: #1a1a1a; letter-spacing: 5px;
+            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
+            font-family: 'Orbitron'; font-size: 0.5rem; color: #333; letter-spacing: 4px;
             text-transform: uppercase;
         }
 
         @media (max-width: 768px) { 
-            .brand-name { font-size: 3rem; letter-spacing: 12px; } 
-            .bottom-ui, .full-player { right: 20px; bottom: 20px; width: calc(100% - 40px); }
+            .brand-name { font-size: 2.5rem; letter-spacing: 8px; } 
+            .main-logo { width: 80px; }
+            .bottom-ui { right: 10px; bottom: 10px; width: 220px; scale: 0.8; transform-origin: bottom right; }
         }
     </style>
 </head>
@@ -180,121 +187,53 @@
     <div class="corner-frame"></div>
 
     <div class="main-content">
-        <div class="est-text">EST. 2026</div>
-        <h1 class="brand-name" id="typewriter"></h1>
-        <a href="http://member.calvyn.site/#" target="_blank" class="member-btn">
-            <i class="fa-solid fa-people-group"></i>
+        <div class="est-text">EST. 2025</div>
+        
+        <img src="https://i.imgur.com/uR1jWqB.png" class="main-logo" alt="Logo">
+        
+        <h1 class="brand-name">JAGUARX</h1>
+        
+        <div class="divider-line"></div>
+
+        <a href="#" class="member-btn">
+            <i class="fa-solid fa-user-group"></i>
             <span>Members</span>
         </a>
     </div>
 
-    <div class="credit-footer">SYSTEM DESIGN BY OSHI</div>
+    <div class="credit-footer">SYSTEM DESIGN BY MALI CLOUD</div>
 
-    <div class="bottom-ui" id="miniPlayerUI">
-        <div class="music-mini-player" onclick="toggleFullPlayer()">
-            <img src="https://i.ytimg.com/vi/xy3AcmW0lrQ/maxresdefault.jpg" class="mini-art" alt="Art">
+    <div class="bottom-ui">
+        <div class="music-mini-player">
+            <img src="https://i1.sndcdn.com/artworks-000412693845-tqisqj-t500x500.jpg" class="mini-art" alt="Art">
             <div class="mini-info">
                 <span class="mini-title">COME THROUGH</span>
                 <span class="mini-artist">THE WEEKND</span>
             </div>
-            <div class="mini-btn">||</div>
+            <div class="mini-btn"><i class="fa-solid fa-bars-staggered"></i></div>
         </div>
-    </div>
-
-    <div class="full-player" id="fullPlayer">
-        <div class="player-header">
-            <span onclick="toggleFullPlayer()" style="cursor:pointer">✕ HIDE PLAYER</span>
-            <span style="color:var(--accent)">● NOW PLAYING</span>
-        </div>
-        <img src="https://i.ytimg.com/vi/xy3AcmW0lrQ/maxresdefault.jpg" class="full-art" alt="Art">
-        <h2 class="full-title">COME THROUGH</h2>
-        <p class="full-artist">THE WEEKND</p>
-        
-        <div class="progress-container">
-            <input type="range" id="progressBar" value="0">
-            <div style="display:flex; justify-content:space-between; font-size:9px; color:#444; margin-top:8px; font-family:'Orbitron'">
-                <span id="currentTime">0:00</span>
-                <span id="durationTime">0:00</span>
-            </div>
-        </div>
-        
-        <button class="play-pause-btn" id="fullPlayBtn" onclick="togglePlayPause(event)">PAUSE</button>
     </div>
 
     <div id="yt-player" style="display:none;"></div>
 
     <script>
-        // Typewriter Effect
-        const textElement = document.getElementById('typewriter'), text = "CALVYN";
-        let index = 0, isDeleting = false;
-        function type() {
-            let speed = isDeleting ? 150 : 300;
-            textElement.innerText = text.substring(0, index);
-            if (!isDeleting && index < text.length) index++;
-            else if (isDeleting && index > 0) index--;
-            else { isDeleting = !isDeleting; speed = 2500; }
-            setTimeout(type, speed);
-        }
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        document.head.append(tag);
 
-        // YouTube Player Logic
         let player;
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('yt-player', {
                 height: '0', width: '0', videoId: 'xy3AcmW0lrQ',
                 playerVars: { 'autoplay': 1, 'loop': 1, 'playlist': 'xy3AcmW0lrQ' },
-                events: { 'onReady': (e) => { e.target.setVolume(30); startProgress(); } }
+                events: { 'onReady': (e) => e.target.setVolume(20) }
             });
         }
 
-        function startProgress() {
-            setInterval(() => {
-                if (player && player.getCurrentTime) {
-                    const curr = player.getCurrentTime();
-                    const dur = player.getDuration();
-                    document.getElementById('progressBar').value = (curr / dur) * 100;
-                    document.getElementById('currentTime').innerText = formatTime(curr);
-                    document.getElementById('durationTime').innerText = formatTime(dur);
-                }
-            }, 500);
-        }
-
-        function formatTime(s) {
-            const m = Math.floor(s/60);
-            const r = Math.floor(s%60);
-            return `${m}:${r < 10 ? '0' : ''}${r}`;
-        }
-
-        function togglePlayPause(e) {
-            if(e) e.stopPropagation();
-            const fBtn = document.getElementById('fullPlayBtn');
-            if (player.getPlayerState() === 1) {
-                player.pauseVideo();
-                fBtn.innerText = "PLAY";
-            } else {
-                player.playVideo();
-                fBtn.innerText = "PAUSE";
-            }
-        }
-
-        function toggleFullPlayer() {
-            const full = document.getElementById('fullPlayer');
-            const mini = document.getElementById('miniPlayerUI');
-            full.classList.toggle('active');
-            // จางป้ายเล็กออกเมื่อเปิดหน้าเต็มเพื่อให้ดูสะอาดตา
-            mini.style.opacity = full.classList.contains('active') ? "0" : "1";
-            mini.style.pointerEvents = full.classList.contains('active') ? "none" : "auto";
-        }
-
-        document.getElementById('progressBar').addEventListener('input', (e) => {
-            player.seekTo((e.target.value / 100) * player.getDuration());
-        });
-
-        window.onload = type;
-        document.body.addEventListener('click', () => player && player.playVideo(), { once: true });
-        
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        document.head.append(tag);
+        // กดที่ไหนก็ได้ในหน้าจอครั้งแรกเพื่อให้เพลงเล่น (Policy ของ Browser)
+        document.body.addEventListener('click', () => {
+            if(player) player.playVideo();
+        }, { once: true });
     </script>
 </body>
 </html>
